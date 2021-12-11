@@ -33,6 +33,8 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportNeracaController;
 use App\Http\Controllers\LicenceController;
+use App\Http\Controllers\SetingcashController;
+
 use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +72,7 @@ Route::get('/test',function(Request $request){
     $data =Akun::where('iscashin',true)->first()->id;
     return $data;
 });
+
 
 Route::get('/licence',[LicenceController::class,'getLicence']);
 Route::post('/licence/create',[LicenceController::class,'createLicence']);
@@ -245,7 +248,12 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
         
         return $akun;
     });
-    
+    //SETING CASH
+    Route::get('/cashuser',[SetingcashController::class,'getCash']);
+    Route::post('/cashuser',[SetingcashController::class,'createCash']);
+    Route::put('/cashuser/{id}',[SetingcashController::class,'editCash']);
+    Route::delete('/cashuser/{id}',[SetingcashController::class,'deleteCash']);
+
     Route::group(['middleware' => ['role:admin']], function () {
         Route::get('/admin',function(Request $request){
         return 'Ok';

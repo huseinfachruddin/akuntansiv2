@@ -8,6 +8,7 @@ use App\Models\Cashtransaction;
 use App\Models\Subcashtransaction;
 use App\Models\Stocktransaction;
 use App\Models\Credit;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 
 class Akun extends Model
@@ -49,6 +50,10 @@ class Akun extends Model
 
     public function children(){
         return $this->hasMany(Self::class,'perent_id');
+    }
+
+    public function role(){
+        return $this->belongsToMany(Role::class,'akun_role');
     }
 
     public function getCreatedAtAttribute(){
