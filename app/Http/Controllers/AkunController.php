@@ -86,7 +86,7 @@ class AkunController extends Controller
     }
 
     public function getAkunIsCashIn(Request $request){
-        $data =Akun::where('iscashin',true)->get();
+        $data =Akun::where('iscash','<>',true)->where('iscashin',true)->get();
         $response = [
             'success'=>true,
             'akun'  =>$data,
@@ -96,7 +96,7 @@ class AkunController extends Controller
     }
 
     public function getAkunIsCashOut(){
-        $data =Akun::where('iscashout',true)->get();
+        $data =Akun::where('iscash','<>',true)->where('iscashout',true)->get();
 
         $response = [
             'success'=>true,

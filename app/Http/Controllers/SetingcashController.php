@@ -7,11 +7,39 @@ use App\Models\Akun;
 use App\Models\User;
 use App\Models\Cashtransaction;
 use App\Models\Credit;
+use Illuminate\Support\Facades\DB;
 
 class SetingcashController extends Controller
 {
     private $total;
 
+    public function getCashData(Request $request){
+        $cash = Akun::withCount(['creditin as sum_stockin' =>function($credit) use($request){
+            $credit->whereHas('stocktransaction',function($stock) use($request){
+                $stock = $stock->whereNotNull('cashin_id')->whereNull('pending');
+
+            })->select(DB::raw("SUM(total)"));
+        },
+        // CREDIT STOCK KELUAR = menghitung uang keluar dari stock
+        'creditout as sum_stockout' =>function($credit) use($request){
+            $credit->whereHas('stocktransaction',function($stock) use($request){
+                $stock = $stock->whereNotNull('cashout_id')->whereNull('pending');
+            })->select(DB::raw("SUM(total)"));    
+        },
+        // CASH FROM = menghitung cash sebagai akun
+        'cashtransactionfrom as sum_cashfrom' =>function($cash) use($request){
+            $cash->select(DB::raw("SUM(cashout+transfer)"));
+        },
+        // CASH TO = menghitung cash sebagai akun
+        'cashtransactionto as sum_cashto' =>function($cash) use($request){
+            $cash->select(DB::raw("SUM(cashin+transfer)"));
+        }])->where('iscash',true)->get();
+    
+        foreach ($cash as $key => $value) {
+            $value->total = ($value->sum_stockin - $value->sum_stockout)+($value->sum_cashto - $value->sum_cashfrom );
+        }
+      return $cash;
+    }
     public function getCash(Request $request){
         $cash = Akun::where('name','Kas dan Bank')->first();
         $data = Akun::where('perent_id',$cash->id)->with('role');

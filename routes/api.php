@@ -73,6 +73,7 @@ Route::get('/test',function(Request $request){
     return $data;
 });
 
+Route::get('/cashdata',[SetingcashController::class,'getCashData']);
 
 Route::get('/licence',[LicenceController::class,'getLicence']);
 Route::post('/licence/create',[LicenceController::class,'createLicence']);
