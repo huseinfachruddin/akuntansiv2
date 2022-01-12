@@ -35,8 +35,6 @@ class CashController extends Controller
     }
 
     public function getCashIn(Request $request){
-
-        
         $data = Cashtransaction::whereNotNull('cashin')->whereNull('from');
 
         if (!empty($request->start_date) && !empty($request->end_date)) {
