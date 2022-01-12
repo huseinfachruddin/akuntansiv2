@@ -405,6 +405,7 @@ class StockController extends Controller
         $akun = Akun::find($akun->id);
         $akun->total = $akun->total + $request->discount;
         $akun->save();
+
         
         $akun = Akun::where('name','=','Piutang Penjualan')->first();
         $akun = Akun::find($akun->id);
