@@ -17,7 +17,7 @@ class ReturnController extends Controller
 {
     public function getReturnIn(Request $request){
         
-        $data = Stocktransaction::where('report','in');
+        $data = Stocktransaction::where('return','in');
         
         if (!empty($request->start_date) && !empty($request->end_date)) {
             $request->start_date = date('Y-m-d',strtotime($request->start_date));
@@ -37,7 +37,7 @@ class ReturnController extends Controller
     }
 
     public function getReturnOut(Request $request){
-        $data = Stocktransaction::where('report','out');
+        $data = Stocktransaction::where('return','out');
         
         if (!empty($request->start_date) && !empty($request->end_date)) {
             $request->start_date = date('Y-m-d',strtotime($request->start_date));
@@ -85,7 +85,7 @@ class ReturnController extends Controller
         $stock->staff = $request->staff;
         $stock->date = date("Y-m-d", strtotime($request->date));
 
-        $stock->report = 'in';
+        $stock->return = 'in';
         $stock->save();
 
         $data = $request->product_id;
