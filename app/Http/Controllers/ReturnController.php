@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReturnController extends Controller
 {
-    public function getReportIn(Request $request){
+    public function getReturnIn(Request $request){
         
         $data = Stocktransaction::where('report','in');
         
@@ -36,7 +36,7 @@ class ReturnController extends Controller
         return response($response,200);
     }
 
-    public function getReportOut(Request $request){
+    public function getReturnOut(Request $request){
         $data = Stocktransaction::where('report','out');
         
         if (!empty($request->start_date) && !empty($request->end_date)) {
@@ -57,7 +57,7 @@ class ReturnController extends Controller
         return response($response,200);
     }
 
-    public function getReportDetail(Request $request){
+    public function getReturnDetail(Request $request){
         $data = Stocktransaction::where('id',$request->id)->with('contact','substocktransaction','substocktransaction.product')->get();
         $response = [
             'success'=>true,
@@ -68,7 +68,7 @@ class ReturnController extends Controller
         return response($response,200);
     }
     
-    public function createReportIn(Request $request){
+    public function createReturnIn(Request $request){
 
         $request->validate([
             'staff' =>'required',
@@ -122,7 +122,7 @@ class ReturnController extends Controller
         return response($response,200);
     }
 
-    public function createReportOut(Request $request){
+    public function createReturnOut(Request $request){
 
         $request->validate([
             'staff' =>'required',
