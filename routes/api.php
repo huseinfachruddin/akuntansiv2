@@ -34,6 +34,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportNeracaController;
 use App\Http\Controllers\LicenceController;
 use App\Http\Controllers\SetingcashController;
+use App\Http\Controllers\ReturnController;
 
 use Carbon\Carbon;
 /*
@@ -182,7 +183,6 @@ Route::post('/stock/out/create',[StockController::class,'createStockOut']);
 Route::delete('/stock/transaction/delete/{id}',[StockController::class,'deleteStockTransaction']);
 
 // STOCK DEBT******
-
 Route::match(['get','post'], '/stock/out/debt', [StockDebtController::class,'getStockOutDebt']);
 Route::match(['get','post'], '/stock/out/debt/due', [StockDebtController::class,'getStockOutDebtDue']);
 
@@ -193,7 +193,6 @@ Route::delete('/stock/paid/delete/{id}',[StockDebtController::class,'deleteCredi
 // STOCK Non Money******
 
 Route::get('/stock/nonmony/detail/{id}',[StockNonMoneyController::class,'getStockTransactionDetail']);
-
 
 Route::match(['get','post'], '/stock/in/nonmoney', [StockNonMoneyController::class,'getStockIn']);
 Route::match(['get','post'], '/stock/out/nonmoney', [StockNonMoneyController::class,'getStockOut']);
@@ -234,6 +233,13 @@ Route::post('/login',[Auth::class,'login']);
 Route::put('/user/edit/{id}',[UserController::class,'editUser']);
 Route::put('/edit/password/{id}',[Auth::class,'editPasswordUser']);
 
+// RETURN API
+Route::match(['get','post'],'/return/in',[ReturnController::class,'getReturnIn']);
+Route::match(['get','post'],'/return/out',[ReturnController::class,'getReturnOut']);
+
+Route::post('/return/in/create',[ReturnController::class,'createReturnIn']);
+Route::post('/return/out/create',[ReturnController::class,'createReturnOut']);
+
 Route::group(['middleware'=>'auth:sanctum'],function(){
     
     Route::get('/logout',[Auth::class,'logout']);
@@ -254,7 +260,7 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::post('/cashuser',[SetingcashController::class,'createCash']);
     Route::put('/cashuser/{id}',[SetingcashController::class,'editCash']);
     Route::delete('/cashuser/{id}',[SetingcashController::class,'deleteCash']);
-
+    
     Route::group(['middleware' => ['role:admin']], function () {
         Route::get('/admin',function(Request $request){
         return 'Ok';
