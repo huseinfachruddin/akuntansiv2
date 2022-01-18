@@ -20,7 +20,7 @@ class StockController extends Controller
         $data = Product::with('producttype','unit')
         ->whereHas('substocktransaction' , function($sub) use($request){
             $sub->whereHas('stocktransaction',function($stock) use($request){
-                $stock = $stock->whereNotNull('cashin_id')->whereNull('pending')->whereNull('nonmoney');
+                $stock = $stock->whereNotNull('cashin_id')->whereNull('pending')->whereNull('nonmoney')->whereNull('return');
                 if (!empty($request->start_date) && !empty($request->end_date)) {
                     $request->start_date = date('Y-m-d',strtotime($request->start_date));
                     $request->end_date = date('Y-m-d',strtotime($request->end_date));
@@ -32,7 +32,7 @@ class StockController extends Controller
         });
         $data= $data->withSum(['substocktransaction'=>function($sub) use($request){
             $sub->whereHas('stocktransaction',function($stock) use($request){
-                $stock = $stock->whereNotNull('cashin_id')->whereNull('pending')->whereNull('nonmoney');
+                $stock = $stock->whereNotNull('cashin_id')->whereNull('pending')->whereNull('nonmoney')->whereNull('return');
                 if (!empty($request->start_date) && !empty($request->end_date)) {
                     $request->start_date = date('Y-m-d',strtotime($request->start_date));
                     $request->end_date = date('Y-m-d',strtotime($request->end_date));
@@ -45,7 +45,7 @@ class StockController extends Controller
         
         $data =$data->withSum(['substocktransaction'=>function($sub) use($request){
             $sub->whereHas('stocktransaction',function($stock) use($request){
-                $stock = $stock->whereNotNull('cashin_id')->whereNull('pending')->whereNull('nonmoney');
+                $stock = $stock->whereNotNull('cashin_id')->whereNull('pending')->whereNull('nonmoney')->whereNull('return');
                 if (!empty($request->start_date) && !empty($request->end_date)) {
                     $request->start_date = date('Y-m-d',strtotime($request->start_date));
                     $request->end_date = date('Y-m-d',strtotime($request->end_date));
@@ -87,7 +87,7 @@ class StockController extends Controller
 
     public function getStockIn(Request $request){
         
-        $data = Stocktransaction::whereNotNull('cashout_id')->whereNull('pending')->whereNull('nonmoney');
+        $data = Stocktransaction::whereNotNull('cashout_id')->whereNull('pending')->whereNull('nonmoney')->whereNull('return');
         
         if (!empty($request->start_date) && !empty($request->end_date)) {
             $request->start_date = date('Y-m-d',strtotime($request->start_date));
@@ -109,7 +109,7 @@ class StockController extends Controller
     }
 
     public function getStockOut(Request $request){
-        $data = Stocktransaction::whereNotNull('cashin_id')->whereNull('pending')->whereNull('nonmoney');
+        $data = Stocktransaction::whereNotNull('cashin_id')->whereNull('pending')->whereNull('nonmoney')->whereNull('return');
         if (!empty($request->start_date) && !empty($request->end_date)) {
             $request->start_date = date('Y-m-d',strtotime($request->start_date));
             $request->end_date = date('Y-m-d',strtotime($request->end_date));
