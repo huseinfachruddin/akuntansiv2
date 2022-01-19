@@ -764,7 +764,6 @@ class ReportNeracaController extends Controller
         //AKUN BERNAMA ;
         $akunJasa = Akun::where('name','=','Pendapatan Jasa')->first();
         $akunJasa->total = $jasa;
-        dd($return_in);
         $penjualan=$penjualan-$return_in;
         $akunPenjualan = Akun::where('name','=','Pendapatan Penjualan')->first();
         $akunPenjualan->total = $penjualan;
@@ -780,6 +779,7 @@ class ReportNeracaController extends Controller
         $hpp=$hpp-$return_in;
         $akunHpp = Akun::where('name','=','Harga Pokok Penjualan')->first();
         $akunHpp->total = $hpp;
+        dd($return_in,$hpp,$penjualan);
 
         $akunPotonganJual = Akun::where('name','=','Potongan Penjualan')->first();
         $akunPotonganJual->total = $potonganjual;
