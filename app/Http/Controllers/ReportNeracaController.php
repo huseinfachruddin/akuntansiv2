@@ -370,15 +370,16 @@ class ReportNeracaController extends Controller
         $akunJasa = Akun::where('name','=','Pendapatan Jasa')->first();
         $akunJasa->total = $jasa;
 
+        $penjualan=$penjualan - $return_in;
         $akunPenjualan = Akun::where('name','=','Pendapatan Penjualan')->first();
-        $akunPenjualan->total = $penjualan - $return_in;
+        $akunPenjualan->total = $penjualan;
 
         $akunBarang = Akun::where('name','=','Pendapatan Barang')->first();
         $akunBarang->total = $barang;
 
         $akunBarangRugi = Akun::where('name','=','Kerugian Barang Keluar Tanpa Penjualan')->first();
         $akunBarangRugi->total = $barangrugi;
-
+        
         $akunPotonganBeli = Akun::where('name','=','Potongan Pembelian')->first();
         $akunPotonganBeli->total = $potonganbeli;
         $hpp = $hpp - $hppreturn_in;
@@ -780,9 +781,9 @@ class ReportNeracaController extends Controller
         //AKUN BERNAMA ;
         $akunJasa = Akun::where('name','=','Pendapatan Jasa')->first();
         $akunJasa->total = $jasa;
-
+        $penjualan=$penjualan - $return_in;
         $akunPenjualan = Akun::where('name','=','Pendapatan Penjualan')->first();
-        $akunPenjualan->total = $penjualan - $return_in;
+        $akunPenjualan->total = $penjualan;
 
         $akunBarang = Akun::where('name','=','Pendapatan Barang')->first();
         $akunBarang->total = $barang;
