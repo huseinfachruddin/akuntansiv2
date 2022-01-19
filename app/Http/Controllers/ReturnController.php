@@ -114,6 +114,7 @@ class ReturnController extends Controller
 
         $stock = Stocktransaction::find($stock->id);
         $stock->total = $total;
+        $stock->paid = $request->paid;
         $stock->save();
 
         $credit = new Credit;
