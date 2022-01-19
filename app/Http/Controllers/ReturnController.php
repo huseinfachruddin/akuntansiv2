@@ -73,6 +73,7 @@ class ReturnController extends Controller
         $request->validate([
             'staff' =>'required',
             'date' =>'required',
+            'cashout_id' =>'required',
 
             'product_id.*' =>'required',
             'qty.*'  =>'required',
@@ -113,6 +114,12 @@ class ReturnController extends Controller
         $stock->total = $total;
         $stock->save();
 
+        $credit = new Credit;
+        $credit->stocktransaction_id = $stock->id;
+        $credit->cashout_id = $request->cashout_id;
+        $credit->total = $request->paid;
+        $credit->save();
+
         $response = [
             'success'=>true,
             'stockktransaction'=>$stock,
@@ -127,6 +134,7 @@ class ReturnController extends Controller
         $request->validate([
             'staff' =>'required',
             'date' =>'required',
+            'cashin_id' =>'required',
 
             'product_id.*' =>'required',
             'qty.*'  =>'required',
@@ -210,6 +218,12 @@ class ReturnController extends Controller
         $stock = Stocktransaction::find($stock->id);
         $stock->total = $total;
         $stock->save();
+
+        $credit = new Credit;
+        $credit->stocktransaction_id = $stock->id;
+        $credit->cashin_id = $request->cashin_id;
+        $credit->total = $request->paid;
+        $credit->save();
 
         $response = [
             'success'=>true,
