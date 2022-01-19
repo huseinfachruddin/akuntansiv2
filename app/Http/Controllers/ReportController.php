@@ -163,7 +163,45 @@ class ReportController extends Controller
                     $stock = $stock->whereBetween('date',[date('Y-01-01',time()),date('Y-m-d',time())]);
                 }
             })->sum('total');
+            $return_in = Substocktransaction::whereHas('product',function($product){
+                $product->where('category','<>','service');
+            })->whereHas('stocktransaction',function($stock) use($request){
+                $stock = $stock->whereNotNull('cashout_id')->whereNull('pending')->where('return','in');
+                if (!empty($request->start_date) && !empty($request->end_date)) {
+                    $request->start_date = date('Y-m-d',strtotime($request->start_date));
+                    $request->end_date = date('Y-m-d',strtotime($request->end_date));
+                    $stock = $stock->whereBetween('date',[$request->start_date,$request->end_date]);
+                }else{
+                    $stock = $stock->whereBetween('date',[date('Y-01-01',time()),date('Y-m-d',time())]);
+                }
+            })->sum('total');
     
+            $return_in_sell = Substocktransaction::whereHas('product',function($product){
+                $product->where('category','<>','service');
+            })->whereHas('stocktransaction',function($stock) use($request){
+                $stock = $stock->whereNotNull('cashout_id')->whereNull('pending')->where('return','in');
+                if (!empty($request->start_date) && !empty($request->end_date)) {
+                    $request->start_date = date('Y-m-d',strtotime($request->start_date));
+                    $request->end_date = date('Y-m-d',strtotime($request->end_date));
+                    $stock = $stock->whereBetween('date',[$request->start_date,$request->end_date]);
+                }else{
+                    $stock = $stock->whereBetween('date',[date('Y-01-01',time()),date('Y-m-d',time())]);
+                }
+            })->sum('selling_price');
+    
+            $return_out = Substocktransaction::whereHas('product',function($product){
+                $product->where('category','<>','service');
+            })->whereHas('stocktransaction',function($stock) use($request){
+                $stock = $stock->whereNotNull('cashout_id')->whereNull('pending')->whereNull('return')->where('return','out');
+                if (!empty($request->start_date) && !empty($request->end_date)) {
+                    $request->start_date = date('Y-m-d',strtotime($request->start_date));
+                    $request->end_date = date('Y-m-d',strtotime($request->end_date));
+                    $stock = $stock->whereBetween('date',[$request->start_date,$request->end_date]);
+                }else{
+                    $stock = $stock->whereBetween('date',[date('Y-01-01',time()),date('Y-m-d',time())]);
+                }
+            })->sum('total');
+
             // PENDAPATAN barang
             $barang = Substocktransaction::whereHas('product',function($product){
                 $product->where('category','<>','service');
@@ -332,19 +370,20 @@ class ReportController extends Controller
             //AKUN BERNAMA ;
             $akunJasa = Akun::where('name','=','Pendapatan Jasa')->first();
             $akunJasa->total = $jasa;
-    
+            $penjualan=$penjualan-$return_in_sell;
             $akunPenjualan = Akun::where('name','=','Pendapatan Penjualan')->first();
             $akunPenjualan->total = $penjualan;
     
             $akunBarang = Akun::where('name','=','Pendapatan Barang')->first();
             $akunBarang->total = $barang;
-    
+            
             $akunBarangRugi = Akun::where('name','=','Kerugian Barang Keluar Tanpa Penjualan')->first();
             $akunBarangRugi->total = $barangrugi;
     
             $akunPotonganBeli = Akun::where('name','=','Potongan Pembelian')->first();
             $akunPotonganBeli->total = $potonganbeli;
     
+            $hpp=$hpp-$return_in;
             $akunHpp = Akun::where('name','=','Harga Pokok Penjualan')->first();
             $akunHpp->total = $hpp;
     
