@@ -782,6 +782,7 @@ class ReportNeracaController extends Controller
         $akunJasa = Akun::where('name','=','Pendapatan Jasa')->first();
         $akunJasa->total = $jasa;
         $penjualan=$penjualan - $return_in;
+        dd($penjualan - $return_in);
         $akunPenjualan = Akun::where('name','=','Pendapatan Penjualan')->first();
         $akunPenjualan->total = $penjualan;
 
