@@ -176,6 +176,19 @@ class ReportNeracaController extends Controller
             }
         })->sum('total');
 
+        $return_in_sell = Substocktransaction::whereHas('product',function($product){
+            $product->where('category','<>','service');
+        })->whereHas('stocktransaction',function($stock) use($request){
+            $stock = $stock->whereNotNull('cashout_id')->whereNull('pending')->where('return','in');
+            if (!empty($request->start_date) && !empty($request->end_date)) {
+                $request->start_date = date('Y-m-d',strtotime($request->start_date));
+                $request->end_date = date('Y-m-d',strtotime($request->end_date));
+                $stock = $stock->whereBetween('date',[date('1111-01-01',time()),$request->end_date]);
+            }else{
+                $stock = $stock->whereBetween('date',[date('1111-01-01',time()),date('Y-m-d',time())]);
+            }
+        })->sum('selling_price');
+
         $return_out = Substocktransaction::whereHas('product',function($product){
             $product->where('category','<>','service');
         })->whereHas('stocktransaction',function($stock) use($request){
@@ -355,7 +368,7 @@ class ReportNeracaController extends Controller
         $akunJasa = Akun::where('name','=','Pendapatan Jasa')->first();
         $akunJasa->total = $jasa;
 
-        
+        $penjualan=$penjualan-$return_in_sell;
         $akunPenjualan = Akun::where('name','=','Pendapatan Penjualan')->first();
         $akunPenjualan->total = $penjualan;
 

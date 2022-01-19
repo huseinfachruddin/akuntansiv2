@@ -100,6 +100,7 @@ class ReturnController extends Controller
             $sub->product_id = $request->product_id[$key];
             $sub->qty = $request->qty[$key];
             $sub->purchase_price = $request->purchase_price[$key];
+            $sub->selling_price = $request->selling_price[$key];
             $sub->left = $request->qty[$key];
             $sub->total = $request->total[$key];
             $sub->save();
