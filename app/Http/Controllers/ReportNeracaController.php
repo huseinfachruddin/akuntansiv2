@@ -284,7 +284,7 @@ class ReportNeracaController extends Controller
         $persediaanmasuk = Substocktransaction::whereHas('product',function($product){
             $product->where('category','<>','service');
         })->whereHas('stocktransaction',function($stock) use($request){
-            $stock = $stock->whereNotNull('cashout_id')->whereNull('pending')->whereNull('return');
+            $stock = $stock->whereNotNull('cashout_id')->whereNull('pending');
             if (!empty($request->start_date) && !empty($request->end_date)) {
                 $request->start_date = date('Y-m-d',strtotime($request->start_date));
                 $request->end_date = date('Y-m-d',strtotime($request->end_date));
@@ -310,7 +310,7 @@ class ReportNeracaController extends Controller
         $persediaanhpp = Substocktransaction::whereHas('product',function($product){
             $product->where('category','<>','service');
         })->whereHas('stocktransaction',function($stock) use($request){
-            $stock = $stock->whereNotNull('cashin_id')->whereNull('pending')->whereNull('return');
+            $stock = $stock->whereNotNull('cashin_id')->whereNull('pending');
             if (!empty($request->start_date) && !empty($request->end_date)) {
                 $request->start_date = date('Y-m-d',strtotime($request->start_date));
                 $request->end_date = date('Y-m-d',strtotime($request->end_date));
@@ -724,13 +724,13 @@ class ReportNeracaController extends Controller
             }else{
                 $stock = $stock->whereBetween('date',[date('1111-01-01',time()),date('Y-12-31', strtotime(date('Y-m-d')." -1 year"))]);
             }
-            $stock = $stock->whereNotNull('cashout_id')->orWhere('nonmoney','in')->whereNull('pending')->whereNull('return');
+            $stock = $stock->whereNotNull('cashout_id')->orWhere('nonmoney','in')->whereNull('pending');
         })->sum('total');
 
         $persediaanhpp = Substocktransaction::whereHas('product',function($product){
             $product->where('category','<>','service');
         })->whereHas('stocktransaction',function($stock) use($request){
-            $stock = $stock->whereNotNull('cashin_id')->whereNull('pending')->whereNull('return');
+            $stock = $stock->whereNotNull('cashin_id')->whereNull('pending');
             if (!empty($request->end_date)) {
 
                 $stock = $stock->whereBetween('date',[date('1111-01-01',time()),date('Y-12-31', strtotime($request->end_date." -1 year"))]);
