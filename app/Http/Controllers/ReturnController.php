@@ -87,6 +87,7 @@ class ReturnController extends Controller
         $stock->date = date("Y-m-d", strtotime($request->date));
         $stock->cashout_id = $request->cashout_id;
         $stock->contact_id = $request->contact_id;
+        $stock->payment_due = date("Y-m-d", strtotime($request->payment_due));
 
         $stock->return = 'in';
         $stock->save();
@@ -151,6 +152,7 @@ class ReturnController extends Controller
         $stock->date = date("Y-m-d", strtotime($request->date));
         $stock->cashin_id = $request->cashin_id;
         $stock->return = 'out';
+        $stock->payment_due = date("Y-m-d", strtotime($request->payment_due));
 
         $stock->save();
 
