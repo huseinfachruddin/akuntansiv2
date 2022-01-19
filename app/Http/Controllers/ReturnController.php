@@ -86,6 +86,7 @@ class ReturnController extends Controller
         $stock->staff = $request->staff;
         $stock->date = date("Y-m-d", strtotime($request->date));
         $stock->cashout_id = $request->cashout_id;
+        $stock->contact_id = $request->contact_id;
 
         $stock->return = 'in';
         $stock->save();
