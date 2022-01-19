@@ -357,19 +357,19 @@ class ReportNeracaController extends Controller
         $penjualan=$penjualan-$return_in;
         $akunPenjualan = Akun::where('name','=','Pendapatan Penjualan')->first();
         $akunPenjualan->total = $penjualan;
-
         $akunBarang = Akun::where('name','=','Pendapatan Barang')->first();
         $akunBarang->total = $barang;
-
+        
         $akunBarangRugi = Akun::where('name','=','Kerugian Barang Keluar Tanpa Penjualan')->first();
         $akunBarangRugi->total = $barangrugi;
-
+        
         $akunPotonganBeli = Akun::where('name','=','Potongan Pembelian')->first();
         $akunPotonganBeli->total = $potonganbeli;
         $hpp=$hpp-$return_in;
-
+        
         $akunHpp = Akun::where('name','=','Harga Pokok Penjualan')->first();
         $akunHpp->total = $hpp;
+        dd($penjualan,$hpp);
 
         $akunPotonganJual = Akun::where('name','=','Potongan Penjualan')->first();
         $akunPotonganJual->total = $potonganjual;
