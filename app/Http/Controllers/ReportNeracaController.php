@@ -695,7 +695,7 @@ class ReportNeracaController extends Controller
         $hpp = Substocktransaction::whereHas('product',function($product){
             $product->where('category','<>','service');
         })->whereHas('stocktransaction',function($stock) use($request){
-            $stock = $stock->whereNotNull('cashin_id');
+            $stock = $stock->whereNotNull('cashin_id')->whereNull('return');
             if (!empty($request->end_date)) {
                 $stock = $stock->whereBetween('date',[date('1111-01-01',time()),date('Y-12-31', strtotime($request->end_date." -1 year"))]);
             }else{
@@ -783,7 +783,7 @@ class ReportNeracaController extends Controller
 
         $akunPenjualan = Akun::where('name','=','Pendapatan Penjualan')->first();
         $akunPenjualan->total = $penjualan - $return_in;
-            dd($penjualan,$return_in);
+
         $akunBarang = Akun::where('name','=','Pendapatan Barang')->first();
         $akunBarang->total = $barang;
 
