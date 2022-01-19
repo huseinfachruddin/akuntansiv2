@@ -368,7 +368,7 @@ class ReportNeracaController extends Controller
         $akunPotonganBeli = Akun::where('name','=','Potongan Pembelian')->first();
         $akunPotonganBeli->total = $potonganbeli;
 
-        
+        $hpp = $hpp - $return_in;
         $akunHpp = Akun::where('name','=','Harga Pokok Penjualan')->first();
         $akunHpp->total = $hpp;
 
@@ -457,7 +457,7 @@ class ReportNeracaController extends Controller
         rekursifTotal($pdptn);
         rekursifTotal($hpp);
         rekursifTotal($biaya);
-        dd($hpp,$penjualan);
+
         $labaDitahan=$this->labaBerjalan($request);
         $LTB = Akun::where('name','=','Laba Tahun Berjalan')->first();
         $LTB->total = ($pdptn[0]->total - $hpp[0]->total - $biaya[0]->total)-$labaDitahan;
