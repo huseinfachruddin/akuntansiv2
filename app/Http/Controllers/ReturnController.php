@@ -103,7 +103,7 @@ class ReturnController extends Controller
             $sub->purchase_price = $request->purchase_price[$key];
             $sub->selling_price = $request->selling_price[$key];
             $sub->left = $request->qty[$key];
-            $sub->total = $request->total[$key];
+            $sub->total =  ($request->qty[$key]*$request->purchase_price[$key]);
             $sub->save();
 
             $substocktransaction[]= $sub;
@@ -181,7 +181,7 @@ class ReturnController extends Controller
             $subin = Substocktransaction::where('left','>',0)
             ->whereHas('stocktransaction',function($query){
                 $query->whereNull('pending');
-            })->where('product_id','=',$sub->product_id)->get();
+            })->where('product_id','=',$sub->product_id)->orderBy('id','ASC')->get();
             foreach ($subin as $key => $value) {
                 if ($qty <= $value->left) {
 
@@ -202,28 +202,14 @@ class ReturnController extends Controller
                     $sibin->left = $set;
                     $sibin->save();
                 }
-                
-                $lasthb=$value->purchase_price;
             }
             $sibin = Substocktransaction::find($sub->id);
-            $sibin->hpp = $totalhpp;
+            $sibin->hpp = 0;
+            $sibin->total = $sub->qty*$sub->purchase_price;
             $sibin->save();
-            $total = $total + $sub->total;     
-        }
-              
-        if ($qty > 0) {
-            $totalhpp = $totalhpp + ($lasthb * $qty);
-        }
-        
-        $akun = Akun::where('name','=','Persediaan Barang')->first();
-        $akun = Akun::find($akun->id);
-        $akun->total = $akun->total - $totalhpp;
-        $akun->save();
 
-        $akun = Akun::where('name','=','Kerugian Barang Keluar Tanpa Penjualan')->first();
-        $akun = Akun::find($akun->id);
-        $akun->total = $akun->total + $totalhpp;
-        $akun->save();
+            $total = $total + $sibin->total;     
+        }
 
         $stock = Stocktransaction::find($stock->id);
         $stock->total = $total;
