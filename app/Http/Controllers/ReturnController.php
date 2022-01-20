@@ -74,6 +74,7 @@ class ReturnController extends Controller
             'staff' =>'required',
             'date' =>'required',
             'cashout_id' =>'required',
+            'payment_due' =>'required',
 
             'product_id.*' =>'required',
             'qty.*'  =>'required',
@@ -166,6 +167,8 @@ class ReturnController extends Controller
             $sub->stocktransaction_id = $stock->id;
             $sub->product_id = $request->product_id[$key];
             $sub->qty = $request->qty[$key];
+            $sub->purchase_price = $request->purchase_price[$key];
+
             $sub->save();
 
             $substocktransaction[]= $sub;
