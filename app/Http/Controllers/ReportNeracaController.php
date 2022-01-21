@@ -343,7 +343,7 @@ class ReportNeracaController extends Controller
             }
         })->sum('total');
         // (penjualan+item masuk)(item keluar+penjualan)
-        $persediaan = ($persediaanmasuk+$itemmasuk) - ($persediaankeluar + $persediaanhpp + $return_pembelian);
+        $persediaan = ($persediaanmasuk + $itemmasuk) - ($persediaankeluar + $persediaanhpp + $return_pembelian);
 
         $uangmukabeli = Stocktransaction::whereNotNull('cashout_id')->where('pending',1);
         if (!empty($request->start_date) && !empty($request->end_date)) {

@@ -201,6 +201,7 @@ class StockNonMoneyController extends Controller
             $sibin = Substocktransaction::find($sub->id);
             $sibin->hpp = $totalhpp;
             $sibin->save();
+            $totalhpp=0;
             $total = $total + $sub->total;     
         }
               

@@ -75,6 +75,7 @@ class ReturnController extends Controller
             'date' =>'required',
             'cashout_id' =>'required',
             'payment_due' =>'required',
+            'contact_id' =>'required',
 
             'product_id.*' =>'required',
             'qty.*'  =>'required',
@@ -89,6 +90,7 @@ class ReturnController extends Controller
         $stock->cashout_id = $request->cashout_id;
         $stock->contact_id = $request->contact_id;
         $stock->payment_due = date("Y-m-d", strtotime($request->payment_due));
+        $stock->contact_id = $request->contact_id;
 
         $stock->return = 'in';
         $stock->save();
@@ -141,6 +143,7 @@ class ReturnController extends Controller
             'staff' =>'required',
             'date' =>'required',
             'cashin_id' =>'required',
+            'contact_id' =>'required',
 
             'product_id.*' =>'required',
             'qty.*'  =>'required',
@@ -155,6 +158,7 @@ class ReturnController extends Controller
         $stock->cashin_id = $request->cashin_id;
         $stock->return = 'out';
         $stock->payment_due = date("Y-m-d", strtotime($request->payment_due));
+        $stock->contact_id = $request->contact_id;
 
         $stock->save();
 

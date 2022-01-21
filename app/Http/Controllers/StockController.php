@@ -377,40 +377,15 @@ class StockController extends Controller
             $sibin = Substocktransaction::find($sub->id);
             $sibin->hpp = $totalhpp;
             $sibin->save();
-            
+            $totalhpp=0;
             $total = $total + $sub->total;
             
         }
               
-        if ($qty > 0) {
-            $totalhpp = $totalhpp + ($lasthb * $qty);
-        }
-        
-        $akun = Akun::where('name','=','Persediaan Barang')->first();
-        $akun = Akun::find($akun->id);
-        $akun->total = $akun->total - $totalhpp;
-        $akun->save();
 
-        $akun = Akun::where('name','=','Pendapatan Penjualan')->first();
-        $akun = Akun::find($akun->id);
-        $akun->total = $akun->total + ($total-$jasa);
-        $akun->save();
 
-        $akun = Akun::where('name','=','Harga Pokok Penjualan')->first();
-        $akun = Akun::find($akun->id);
-        $akun->total = $akun->total + $totalhpp;
-        $akun->save();
 
-        $akun = Akun::where('name','=','Potongan Penjualan')->first();
-        $akun = Akun::find($akun->id);
-        $akun->total = $akun->total + $request->discount;
-        $akun->save();
 
-        
-        $akun = Akun::where('name','=','Piutang Penjualan')->first();
-        $akun = Akun::find($akun->id);
-        $akun->total = $akun->total + (($total - $request->discount) - $stock->paid);
-        $akun->save();
         
         $credit = new Credit;
         $credit->stocktransaction_id = $stock->id;

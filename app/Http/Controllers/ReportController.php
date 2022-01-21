@@ -281,7 +281,7 @@ class ReportController extends Controller
             $piutangjual = $piutangjual->sum('total')-$piutangjual->sum('discount')-$piutangjual->sum('paid');
     
             // persedian
-    
+
             $persediaanmasuk = Substocktransaction::whereHas('product',function($product){
                 $product->where('category','<>','service');
             })->whereHas('stocktransaction',function($stock) use($request){
