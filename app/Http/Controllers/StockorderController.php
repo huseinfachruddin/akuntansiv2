@@ -56,9 +56,10 @@ class StockorderController extends Controller
             $request->start_date = date('Y-m-d',strtotime($request->start_date));
             $request->end_date = date('Y-m-d',strtotime($request->end_date));
             $data = $data->whereBetween('date',[$request->start_date,$request->end_date]);
-        }else{
-            $data = $data->whereBetween('date',[date('Y-m-01',time()),date('Y-m-d',time())]);
         }
+        // else{
+        //     $data = $data->whereBetween('date',[date('Y-m-01',time()),date('Y-m-d',time())]);
+        // }
 
         $data = $data->orderBy('date','DESC')->get();
         
@@ -78,9 +79,10 @@ class StockorderController extends Controller
             $request->start_date = date('Y-m-d',strtotime($request->start_date));
             $request->end_date = date('Y-m-d',strtotime($request->end_date));
             $data = $data->whereBetween('date',[$request->start_date,$request->end_date]);
-        }else{
-            $data = $data->whereBetween('date',[date('Y-m-01',time()),date('Y-m-d',time())]);
         }
+        // else{
+        //     $data = $data->whereBetween('date',[date('Y-m-01',time()),date('Y-m-d',time())]);
+        // }
 
         $data = $data->orderBy('date','DESC')->get();
         

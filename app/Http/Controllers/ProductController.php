@@ -128,11 +128,12 @@ class ProductController extends Controller
             'purchase_price'  =>'nullable',
             'selling_price'  =>'required',
             'producttype'  =>'nullable',
+            'code'  =>'nullable',
             'category'  =>'required',
         ]);
 
         $data = new Product;
-        $data->code = 'P'.rand(100,999).time();
+        $data->code = $request->code;
         $data->name = $request->name;
         $data->qty = 0;
         $data->unit = $request->unit;
@@ -162,12 +163,14 @@ class ProductController extends Controller
             'purchase_price'  =>'nullable',
             'selling_price'  =>'required',
             'producttype'  =>'nullable',
+            'code'  =>'nullable',
             'category'  =>'required',
         ]);
 
         $data = Product::find($request->id);
         $data->name = $request->name;
         $data->unit = $request->unit;
+        $data->code = $request->code;
         $data->selling_price = $request->selling_price;
         if ($request->category=='service') {
             $data->qty = 100;
