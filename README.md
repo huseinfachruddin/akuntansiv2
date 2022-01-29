@@ -106,3 +106,33 @@ StockController :: managemen pembelian , penjualan
 -pendingToOut() = merubah transaksi pesanan penjualan menjadi transaksi penjualan
 -deleteStockTransaction() = hapus transaksi penjualan atau pembelian
 
+StockDebtController :: managemen penjualan / pembelian belum lunas
+-getStockOutDebtDue() = get data penjualan yang belum lunas
+-getStockOutDebt() = get data penjualan
+-paidStockOut() = membuat pembayaran penjualan baru
+-paidStockIn() = membuat pembayaran pembelian baru
+-deleteCreditTransaction() = delete pembayaran penjaualan / pembelian
+
+StockNonMoneyController :: manajemen dapat barang tanpa membeli dan pengleuran barang tanpa menjual
+-getStockIn() = get barang masuk
+-getStockOut() = get barang keluar
+-getStockTransactionDetail() = get detail barang masuk/keluar
+-createStockIn() = membuat transaksi barang masuk
+-createStockOut() = membuat transaksi barang keluar
+-deleteStockTransaction() = mengahapus barang masuk/keluar
+
+StockorderController :: manajemen pesanan penjualan dan pembelian
+-getStockOutDue() = get pesanan penjualan yang jatuh tempo
+-getStockTransactionDetail() = get detail transaksi pesanan
+-getStockIn() = get pesanan pembelian
+-getStockOut() = get pesanan penjualan
+-createStockIn() = membuat pesanan pembelian
+-createStockOut() = membuat pesanan penjualan
+-deleteStockTransaction() = hapus pesanan pembelian / penjualan
+
+UnitController :: managemen satuan dalam produk
+-getUnit() = get semua satuan produk
+-getUnitDetail() = get detail satuan
+-createUnit() = membuat satuan baru
+-editUnit() = edit satuan
+-deleteUnit() = hapus satuan
